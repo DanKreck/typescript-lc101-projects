@@ -5,32 +5,33 @@ export class Rocket {
     name: string;
     totalCapacityKg: number;
     cargoItems: Cargo[] = [];
-    astronauts: Astronaut[]= [];
+    astronauts: Astronaut[] = [];
 
     constructor(name: string, totalCapacityKg: number) {
         this.name = name;
         this.totalCapacityKg = totalCapacityKg;
     }
 
+    //returns sum of all items
     sumMass(items: Payload[]): number {
         let mass: number = 0;
         for (let i: number = 0; i < items.length; i++) {
             mass += items[i].massKg;
         }
         return mass;
-        //returns sum of all items
     }
 
+    //uses this.sumMass to return combined mass of this.astronauts and this.cargoItems
     currentMassKg(): number {
         return (this.sumMass(this.cargoItems) + this.sumMass(this.astronauts));
-        //uses this.sumMass to return combined mass of this.astronauts and this.cargoItems
     }
 
+    //returns true if this.currentMassKg() + item.massKg <= this.totalCapacityKg
     canAdd(item: Payload): boolean {
         return ((this.currentMassKg() + item.massKg) <= this.totalCapacityKg);
-        //returns true if this.currentMassKg() + item.massKg <= this.totalCapacityKg
     }
 
+    //uses this.canAdd() to see if another item can be added
     addCargo(cargo: Cargo): boolean {
         if (this.canAdd(cargo) === true) {
             this.cargoItems.push(cargo);
@@ -39,10 +40,8 @@ export class Rocket {
             return false
         }
     }
-    //uses this.canAdd() to see if another item can be added
-    //if true, adds cargo to this.cargoItems and returns true
-    //if false..... false
 
+    //uses this.canAdd() to see if another astronaut can be added
     addAstronaut(astronaut: Astronaut): boolean {
         if (this.canAdd(astronaut) === true) {
             this.astronauts.push(astronaut);
@@ -51,7 +50,4 @@ export class Rocket {
             return false
         }
     }
-    //uses this.canAdd() to see if another astronaut can be added
-    //if true adds astronaut to this.astronauts and returns true
-    //if false, false
 }
